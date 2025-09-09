@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { MapPin, Clock, Phone, Mail, Calendar } from 'lucide-react';
+import { MapPin, Clock, Phone, Mail } from 'lucide-react';
 
 export function Contact() {
   const { isArabic } = useLanguage();
@@ -10,166 +10,117 @@ export function Contact() {
   const contactInfo = [
     {
       icon: MapPin,
-      titleEn: 'Address',
-      titleAr: 'العنوان',
+      titleEn: 'Visit Our Workshop',
+      titleAr: 'زور ورشتنا',
       valueEn: 'Al Khaleej, Riyadh 13223, Saudi Arabia',
-      valueAr: 'الخليج، الرياض 13223، المملكة العربية السعودية',
-      color: 'bg-blue-500'
+      valueAr: 'الخليج، الرياض 13223، المملكة العربية السعودية'
     },
     {
       icon: Clock,
-      titleEn: 'Working Hours',
+      titleEn: 'Business Hours',
       titleAr: 'ساعات العمل',
-      valueEn: 'Open everyday 7am – 10pm',
-      valueAr: 'مفتوح كل يوم من 7 صباحاً حتى 10 مساءً',
-      color: 'bg-green-500'
+      valueEn: 'Saturday - Thursday: 7:00 AM - 10:00 PM\nFriday: 2:00 PM - 10:00 PM',
+      valueAr: 'السبت - الخميس: 7:00 ص - 10:00 م\nالجمعة: 2:00 ظ - 10:00 م'
     },
     {
       icon: Phone,
-      titleEn: 'Phone',
-      titleAr: 'الهاتف',
-      valueEn: '+966 XXX XXX XXX',
-      valueAr: '+966 XXX XXX XXX',
-      color: 'bg-orange-500'
+      titleEn: 'Call Us',
+      titleAr: 'اتصل بنا',
+      valueEn: '+966 55 XXX XXXX',
+      valueAr: '+966 55 XXX XXXX'
     },
     {
       icon: Mail,
-      titleEn: 'Email',
+      titleEn: 'Email Us',
       titleAr: 'البريد الإلكتروني',
-      valueEn: 'info@umarwelder.sa',
-      valueAr: 'info@umarwelder.sa',
-      color: 'bg-purple-500'
+      valueEn: 'contact@umarwelder.com',
+      valueAr: 'contact@umarwelder.com'
     }
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 ${
-            isArabic ? 'font-cairo' : 'font-sans'
-          }`}>
-            {isArabic ? 'تواصل معنا' : 'Contact Us'}
-          </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-          <p className={`text-lg text-gray-600 max-w-3xl mx-auto ${
-            isArabic ? 'font-cairo' : 'font-sans'
-          }`}>
-            {isArabic 
-              ? 'نحن هنا لمساعدتك في جميع احتياجاتك من اللحام والأعمال المعدنية'
-              : 'We are here to help you with all your welding and metalwork needs'
-            }
-          </p>
-        </div>
+    <section id="contact" className="contact">
+      <div className="container">
+        <h2 className={`section-title ${isArabic ? 'font-cairo' : 'font-sans'}`}>
+          {isArabic ? 'تواصل معنا' : 'Get In Touch'}
+        </h2>
+        <p className={`section-subtitle ${isArabic ? 'font-cairo' : 'font-sans'}`}>
+          {isArabic 
+            ? 'تواصل معنا اليوم لمناقشة مشروعك القادم'
+            : 'Contact us today to discuss your next metalwork project'
+          }
+        </p>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className={`${isArabic ? 'lg:order-2' : ''}`}>
-            <h3 className={`text-2xl font-bold mb-8 text-gray-900 ${
-              isArabic ? 'font-cairo text-right' : 'font-sans text-left'
-            }`}>
-              {isArabic ? 'معلومات الاتصال' : 'Contact Information'}
-            </h3>
-            
-            <div className="space-y-6">
-              {contactInfo.map((info, index) => {
-                const IconComponent = info.icon;
-                return (
-                  <div 
-                    key={index} 
-                    className={`flex items-start gap-4 p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 ${
-                      isArabic ? 'flex-row-reverse text-right' : ''
-                    }`}
-                  >
-                    <div className={`flex-shrink-0 w-14 h-14 ${info.color} rounded-lg flex items-center justify-center`}>
-                      <IconComponent className="w-7 h-7 text-white" />
-                    </div>
-                    <div>
-                      <h4 className={`text-lg font-semibold text-gray-900 mb-2 ${
-                        isArabic ? 'font-cairo' : 'font-sans'
-                      }`}>
-                        {isArabic ? info.titleAr : info.titleEn}
-                      </h4>
-                      <p className={`text-gray-600 ${isArabic ? 'font-cairo' : 'font-sans'}`}>
-                        {isArabic ? info.valueAr : info.valueEn}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Call to Action */}
-            <div className="mt-8 p-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl text-white">
-              <div className={`flex items-center gap-4 mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <Calendar className="w-8 h-8" />
-                <h4 className={`text-xl font-semibold ${isArabic ? 'font-cairo' : 'font-sans'}`}>
-                  {isArabic ? 'احجز استشارة مجانية' : 'Book Free Consultation'}
-                </h4>
+        <div className="contact-content">
+          {/* Map Section */}
+          <div className="contact-map">
+            <div className="map-container">
+              <div className="google-map">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4702.957702344106!2d46.79789337621861!3d24.770111248865213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f01098d38c2c7%3A0x2b5d077a6fe275d0!2zVW1hciBXZWxkZXIg2LnZhdixINit2K_Yp9iv!5e1!3m2!1sen!2sin!4v1757429411393!5m2!1sen!2sin"
+                  width="100%"
+                  height="400"
+                  style={{ border: 0, borderRadius: '12px' }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={isArabic ? 'خريطة موقع عمر حداد' : 'Umar Welder Location Map'}
+                ></iframe>
               </div>
-              <p className={`text-lg mb-6 opacity-90 ${
-                isArabic ? 'font-cairo text-right' : 'font-sans text-left'
-              }`}>
-                {isArabic 
-                  ? 'اتصل بنا اليوم للحصول على عرض أسعار مجاني واستشارة مهنية'
-                  : 'Call us today for a free quote and professional consultation'
-                }
-              </p>
-              <div className={`flex gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <button className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors">
-                  {isArabic ? 'اتصل الآن' : 'Call Now'}
-                </button>
-                <button className="px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-blue-600 transition-all">
-                  {isArabic ? 'واتساب' : 'WhatsApp'}
-                </button>
+              <div className="map-info">
+                <div className="map-details">
+                  <h3 className={isArabic ? 'font-cairo' : 'font-sans'}>
+                    {isArabic ? 'عنوان ورشتنا' : 'Our Workshop Address'}
+                  </h3>
+                  <p className={isArabic ? 'font-cairo' : 'font-sans'}>
+                    {isArabic 
+                      ? 'الخليج، الرياض 13223، المملكة العربية السعودية'
+                      : 'Al Khaleej, Riyadh 13223, Saudi Arabia'
+                    }
+                  </p>
+                  <div className="map-actions">
+                    <a 
+                      href="https://www.google.com/maps/place/Umar+Welder+%D8%B9%D9%85%D8%B1+%D8%AD%D8%AF%D8%A7%D8%AF/@24.770111,46.7978934,17z/data=!3m1!4b1!4m6!3m5!1s0x3e2f01098d38c2c7:0x2b5d077a6fe275d0!8m2!3d24.770111!4d46.8004683!16s%2Fg%2F11y3k5qr8q?entry=ttu&g_ep=EgoyMDI1MDEwMi4wIKXMDSoASAFQAw%3D%3D"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`btn-primary ${isArabic ? 'font-cairo' : 'font-sans'}`}
+                    >
+                      {isArabic ? 'فتح في خرائط جوجل' : 'Open in Google Maps'}
+                    </a>
+                    <a 
+                      href="https://www.google.com/maps/dir//Umar+Welder+%D8%B9%D9%85%D8%B1+%D8%AD%D8%AF%D8%A7%D8%AF/@24.770111,46.7978934,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3e2f01098d38c2c7:0x2b5d077a6fe275d0!2m2!1d46.8004683!2d24.770111"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`btn-secondary ${isArabic ? 'font-cairo' : 'font-sans'}`}
+                    >
+                      {isArabic ? 'احصل على اتجاهات' : 'Get Directions'}
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Map */}
-          <div className={`${isArabic ? 'lg:order-1' : ''}`}>
-            <h3 className={`text-2xl font-bold mb-8 text-gray-900 ${
-              isArabic ? 'font-cairo text-right' : 'font-sans text-left'
-            }`}>
-              {isArabic ? 'موقعنا' : 'Our Location'}
-            </h3>
-            
-            <div className="relative bg-white rounded-xl shadow-lg overflow-hidden">
-              {/* Google Maps Embed Placeholder */}
-              <div className="aspect-[4/3] bg-gray-200 flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h4 className={`text-xl font-semibold text-gray-700 mb-2 ${
-                    isArabic ? 'font-cairo' : 'font-sans'
-                  }`}>
-                    Umar Welder عمر حداد
-                  </h4>
-                  <p className={`text-gray-500 ${isArabic ? 'font-cairo' : 'font-sans'}`}>
-                    Al Khaleej, Riyadh 13223
-                  </p>
-                  <p className={`text-sm text-gray-400 mt-4 ${isArabic ? 'font-cairo' : 'font-sans'}`}>
-                    {isArabic ? 'خريطة جوجل سيتم تحميلها هنا' : 'Google Maps will load here'}
-                  </p>
+          {/* Contact Information */}
+          <div className="contact-info">
+            {contactInfo.map((info, index) => {
+              const IconComponent = info.icon;
+              return (
+                <div key={index} className="contact-info-item">
+                  <div className="contact-icon">
+                    <IconComponent />
+                  </div>
+                  <div className="contact-details">
+                    <h4 className={isArabic ? 'font-cairo' : 'font-sans'}>
+                      {isArabic ? info.titleAr : info.titleEn}
+                    </h4>
+                    <p className={isArabic ? 'font-cairo' : 'font-sans'}>
+                      {isArabic ? info.valueAr : info.valueEn}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              
-              {/* Map overlay with actual embed code comment */}
-              <div className="absolute top-4 left-4 bg-white px-3 py-2 rounded-lg shadow-md">
-                <p className="text-sm text-gray-600 font-medium">
-                  📍 {isArabic ? 'الرياض، السعودية' : 'Riyadh, Saudi Arabia'}
-                </p>
-              </div>
-            </div>
-            
-            {/* Map embed instructions */}
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <p className={`text-sm text-blue-800 ${isArabic ? 'font-cairo text-right' : 'font-sans text-left'}`}>
-                {isArabic 
-                  ? '💡 لإضافة خريطة جوجل الحقيقية، استبدل هذا القسم بكود التضمين من Google Maps'
-                  : "💡 To add real Google Maps, replace this section with Google Maps embed code"
-                }
-              </p>
-            </div>
+              );
+            })}
           </div>
         </div>
       </div>

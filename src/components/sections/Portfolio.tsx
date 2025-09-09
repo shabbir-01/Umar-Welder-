@@ -2,189 +2,177 @@
 
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Eye, ZoomIn } from 'lucide-react';
+import { Maximize2 } from 'lucide-react';
+import { Lightbox } from '@/components/ui/Lightbox';
 
 export function Portfolio() {
   const { isArabic } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  const categories = [
-    { id: 'all', nameEn: 'All Work', nameAr: 'جميع الأعمال' },
-    { id: 'doors', nameEn: 'Doors', nameAr: 'الأبواب' },
-    { id: 'windows', nameEn: 'Windows', nameAr: 'النوافذ' },
-    { id: 'railings', nameEn: 'Railings', nameAr: 'الدرابزين' },
-    { id: 'custom', nameEn: 'Custom Work', nameAr: 'أعمال مخصصة' }
+  const filters = [
+    { id: 'all', labelEn: 'All', labelAr: 'الكل' },
+    { id: 'sheds', labelEn: 'Sheds', labelAr: 'مظلات' },
+    { id: 'doors-windows', labelEn: 'Doors & Windows', labelAr: 'أبواب ونوافذ' },
+    { id: 'railings', labelEn: 'Railings', labelAr: 'درابزين' },
+    { id: 'others', labelEn: 'Others', labelAr: 'أخرى' },
   ];
 
-  // Generate SVG placeholder images for different types of work
-  const generatePlaceholderSVG = (type: string, index: number) => {
-    const svgTemplates = {
-      door: `
-        <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="400" fill="#2d3748"/>
-          <rect x="20" y="20" width="260" height="360" fill="#4a5568" stroke="#718096" stroke-width="4"/>
-          <rect x="40" y="40" width="220" height="320" fill="#1a202c"/>
-          <circle cx="240" cy="200" r="8" fill="#f6e05e"/>
-          <rect x="60" y="60" width="80" height="120" fill="#2d3748" opacity="0.7"/>
-          <rect x="160" y="60" width="80" height="120" fill="#2d3748" opacity="0.7"/>
-          <rect x="60" y="200" width="80" height="120" fill="#2d3748" opacity="0.7"/>
-          <rect x="160" y="200" width="80" height="120" fill="#2d3748" opacity="0.7"/>
-          <text x="150" y="390" text-anchor="middle" fill="#a0aec0" font-size="14">Custom Door ${index + 1}</text>
-        </svg>
-      `,
-      window: `
-        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="300" fill="#2d3748"/>
-          <rect x="20" y="20" width="360" height="260" fill="#4a5568" stroke="#718096" stroke-width="4"/>
-          <line x1="200" y1="20" x2="200" y2="280" stroke="#718096" stroke-width="3"/>
-          <line x1="20" y1="150" x2="380" y2="150" stroke="#718096" stroke-width="3"/>
-          <rect x="40" y="40" width="140" height="90" fill="#1a202c" opacity="0.8"/>
-          <rect x="220" y="40" width="140" height="90" fill="#1a202c" opacity="0.8"/>
-          <rect x="40" y="170" width="140" height="90" fill="#1a202c" opacity="0.8"/>
-          <rect x="220" y="170" width="140" height="90" fill="#1a202c" opacity="0.8"/>
-          <text x="200" y="290" text-anchor="middle" fill="#a0aec0" font-size="14">Window Frame ${index + 1}</text>
-        </svg>
-      `,
-      railing: `
-        <svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="250" fill="#2d3748"/>
-          <rect x="0" y="200" width="400" height="50" fill="#4a5568"/>
-          ${[...Array(8)].map((_, i) => `
-            <rect x="${i * 50 + 25}" y="80" width="6" height="120" fill="#718096"/>
-            <circle cx="${i * 50 + 28}" cy="70" r="3" fill="#f6e05e"/>
-          `).join('')}
-          <rect x="0" y="60" width="400" height="8" fill="#718096"/>
-          <rect x="0" y="120" width="400" height="6" fill="#718096"/>
-          <text x="200" y="240" text-anchor="middle" fill="#a0aec0" font-size="14">Decorative Railing ${index + 1}</text>
-        </svg>
-      `,
-      custom: `
-        <svg viewBox="0 0 350 350" xmlns="http://www.w3.org/2000/svg">
-          <rect width="350" height="350" fill="#2d3748"/>
-          <circle cx="175" cy="175" r="120" fill="none" stroke="#718096" stroke-width="4"/>
-          <circle cx="175" cy="175" r="80" fill="none" stroke="#f6e05e" stroke-width="2"/>
-          <circle cx="175" cy="175" r="40" fill="none" stroke="#68d391" stroke-width="2"/>
-          ${[...Array(6)].map((_, i) => {
-            const angle = (i * 60) * Math.PI / 180;
-            const x1 = 175 + 40 * Math.cos(angle);
-            const y1 = 175 + 40 * Math.sin(angle);
-            const x2 = 175 + 120 * Math.cos(angle);
-            const y2 = 175 + 120 * Math.sin(angle);
-            return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#718096" stroke-width="3"/>`;
-          }).join('')}
-          <text x="175" y="330" text-anchor="middle" fill="#a0aec0" font-size="14">Custom Art ${index + 1}</text>
-        </svg>
-      `
-    };
-    
-    const types = ['door', 'window', 'railing', 'custom'];
-    const selectedType = types[index % types.length] as keyof typeof svgTemplates;
-    return `data:image/svg+xml;base64,${btoa(svgTemplates[selectedType])}`;
+  const projects = [
+    // img2 - img12 mapped to categories
+    { id: 2, image: '/images/img2.jpg',  category: 'sheds',          titleEn: 'Custom Shed Build',        titleAr: 'بناء مظلة مخصصة',        descriptionEn: 'Durable shed structure with reinforced frame', descriptionAr: 'هيكل مظلة متين بإطار معزز' },
+    { id: 3, image: '/images/img3.jpg',  category: 'doors-windows',  titleEn: 'Steel Door Install',      titleAr: 'تركيب باب فولاذي',        descriptionEn: 'Security steel door with premium finish',       descriptionAr: 'باب أمان فولاذي بلمسة نهائية ممتازة' },
+    { id: 4, image: '/images/img4.jpg',  category: 'railings',       titleEn: 'Balcony Railing',         titleAr: 'درابزين شرفة',           descriptionEn: 'Elegant and safe balcony railing system',       descriptionAr: 'نظام درابزين شرفة أنيق وآمن' },
+    { id: 5, image: '/images/img5.jpg',  category: 'sheds',          titleEn: 'Carport Structure',       titleAr: 'موقف سيارات مظلل',        descriptionEn: 'Metal carport designed for durability',         descriptionAr: 'موقف سيارات معدني مصمم للمتانة' },
+    { id: 6, image: '/images/img6.jpg',  category: 'doors-windows',  titleEn: 'Window Frame Set',        titleAr: 'مجموعة إطارات نوافذ',     descriptionEn: 'Custom aluminum window framing',                 descriptionAr: 'إطارات نوافذ ألمنيوم مخصصة' },
+    { id: 7, image: '/images/img7.jpg',  category: 'railings',       titleEn: 'Stair Railing',           titleAr: 'درابزين درج',             descriptionEn: 'Staircase safety railing with modern design',   descriptionAr: 'درابزين درج آمن بتصميم عصري' },
+    { id: 8, image: '/images/img8.jpg',  category: 'others',         titleEn: 'Workshop Shed',           titleAr: 'مظلة ورشة',               descriptionEn: 'Spacious workshop shed with ventilation',       descriptionAr: 'مظلة ورشة فسيحة مع تهوية' },
+    { id: 9, image: '/images/img9.jpg',  category: 'doors-windows',  titleEn: 'Entrance Door',           titleAr: 'باب مدخل',                 descriptionEn: 'Decorative steel entrance door',                 descriptionAr: 'باب مدخل فولاذي زخرفي' },
+    { id: 10, image: '/images/img10.jpg', category: 'railings',      titleEn: 'Terrace Railing',         titleAr: 'درابزين سطح',              descriptionEn: 'Terrace railing with sturdy posts',              descriptionAr: 'درابزين سطح مع أعمدة متينة' },
+    { id: 11, image: '/images/img11.jpg', category: 'others',        titleEn: 'Storage Shed',            titleAr: 'مظلة تخزين',               descriptionEn: 'Compact storage shed solution',                  descriptionAr: 'حل مظلة تخزين مدمجة' },
+    { id: 12, image: '/images/img12.jpg', category: 'others',        titleEn: 'Shopfront Windows',       titleAr: 'نوافذ واجهة متجر',         descriptionEn: 'Shopfront windows with metal frames',            descriptionAr: 'نوافذ واجهة متجر بإطارات معدنية' },
+  ];
+
+  // Filter projects based on active filter
+  const getFilteredProjects = () => {
+    if (activeFilter === 'all') {
+      return projects;
+    }
+    return projects.filter(project => project.category === activeFilter);
+  };
+  
+  const filteredProjects = getFilteredProjects();
+
+  const handleFilterClick = (filterId: string) => {
+    console.log('Filter button clicked:', filterId);
+    setActiveFilter(filterId);
   };
 
-  const portfolioItems = [
-    { id: 1, category: 'doors', titleEn: 'Security Door', titleAr: 'باب أمان' },
-    { id: 2, category: 'windows', titleEn: 'Window Grilles', titleAr: 'شبكات النوافذ' },
-    { id: 3, category: 'railings', titleEn: 'Stair Railing', titleAr: 'درابزين السلم' },
-    { id: 4, category: 'custom', titleEn: 'Decorative Gate', titleAr: 'بوابة زخرفية' },
-    { id: 5, category: 'doors', titleEn: 'Metal Door', titleAr: 'باب معدني' },
-    { id: 6, category: 'windows', titleEn: 'Window Frame', titleAr: 'إطار النافذة' },
-    { id: 7, category: 'railings', titleEn: 'Balcony Railing', titleAr: 'درابزين الشرفة' },
-    { id: 8, category: 'custom', titleEn: 'Custom Metalwork', titleAr: 'أعمال معدنية مخصصة' },
-    { id: 9, category: 'doors', titleEn: 'Entry Door', titleAr: 'باب المدخل' },
-    { id: 10, category: 'windows', titleEn: 'Security Windows', titleAr: 'نوافذ الأمان' },
-    { id: 11, category: 'railings', titleEn: 'Handrail', titleAr: 'درابزين اليد' },
-    { id: 12, category: 'custom', titleEn: 'Artistic Panel', titleAr: 'لوحة فنية' }
-  ];
+  const openLightbox = (project: any) => {
+    setSelectedProject(project);
+    setIsLightboxOpen(true);
+  };
 
-  const filteredItems = selectedCategory === 'all' 
-    ? portfolioItems 
-    : portfolioItems.filter(item => item.category === selectedCategory);
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    setSelectedProject(null);
+  };
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 ${
-            isArabic ? 'font-cairo' : 'font-sans'
-          }`}>
-            {isArabic ? 'معرض أعمالنا' : 'Our Portfolio'}
-          </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto mb-8"></div>
-          <p className={`text-lg text-gray-600 max-w-3xl mx-auto ${
-            isArabic ? 'font-cairo' : 'font-sans'
-          }`}>
-            {isArabic 
-              ? 'استعرض مجموعة من أعمالنا المتميزة في اللحام والأعمال المعدنية'
-              : 'Browse our collection of exceptional welding and metalwork projects'
-            }
-          </p>
-        </div>
+    <section id="portfolio" className="portfolio">
+      <div className="container">
+        <h2 className={`section-title ${isArabic ? 'font-cairo' : 'font-sans'}`}>
+          {isArabic ? 'معرض أعمالنا' : 'Our Portfolio'}
+        </h2>
+        <p className={`section-subtitle ${isArabic ? 'font-cairo' : 'font-sans'}`}>
+          {isArabic 
+            ? 'مجموعة مختارة من مشاريعنا المتميزة'
+            : 'A selection of our finest projects'
+          }
+        </p>
 
-        {/* Category filters */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
+        <div className="portfolio-filters" style={{ position: 'relative', zIndex: 100 }}>
+          {filters.map((filter) => (
             <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                selectedCategory === category.id
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              } ${isArabic ? 'font-cairo' : 'font-sans'}`}
+              key={filter.id}
+              type="button"
+              className={`portfolio-filter ${activeFilter === filter.id ? 'active' : ''} ${
+                isArabic ? 'font-cairo' : 'font-sans'
+              }`}
+              data-filter={filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+              style={{
+                backgroundColor: activeFilter === filter.id ? '#ff6b35' : 'transparent',
+                borderColor: activeFilter === filter.id ? '#ff6b35' : '#333',
+                color: activeFilter === filter.id ? 'white' : '#ccc',
+                cursor: 'pointer',
+                pointerEvents: 'auto',
+                position: 'relative',
+                zIndex: 101,
+                padding: '12px 24px',
+                border: '2px solid',
+                borderRadius: '25px',
+                transition: 'all 0.3s ease'
+              }}
             >
-              {isArabic ? category.nameAr : category.nameEn}
+              {isArabic ? filter.labelAr : filter.labelEn}
             </button>
           ))}
         </div>
 
-        {/* Portfolio grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map((item, index) => (
-            <div 
-              key={item.id}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+        <div className="portfolio-grid">
+          {filteredProjects.map((project, index) => (
+            <div
+              key={project.id}
+              className={`portfolio-item ${project.category}`}
+              data-category={project.category}
+              style={{
+                animationDelay: `${index * 0.1}s`,
+                animation: 'fadeIn 0.5s ease-in-out forwards'
+              }}
             >
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={generatePlaceholderSVG(item.category, index)}
-                  alt={isArabic ? item.titleAr : item.titleEn}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              <div className="portfolio-image">
+                <img 
+                  src={project.image}
+                  alt={isArabic ? project.titleAr : project.titleEn}
+                  style={{ 
+                    width: '100%', 
+                    height: '350px', 
+                    objectFit: 'cover', 
+                    aspectRatio: '1/1',
+                    transition: 'all 0.3s ease',
+                    backgroundColor: 'var(--card-bg)'
+                  }}
+                  onError={(e) => {
+                    // Hide the img and show placeholder
+                    const target = e.currentTarget as HTMLImageElement;
+                    target.style.display = 'none';
+                    const placeholder = target.parentElement?.querySelector('.portfolio-placeholder') as HTMLElement;
+                    if (placeholder) {
+                      placeholder.style.display = 'flex';
+                    }
+                  }}
                 />
-                
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-4">
-                    <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
-                      <Eye className="w-6 h-6 text-gray-700" />
-                    </button>
-                    <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
-                      <ZoomIn className="w-6 h-6 text-gray-700" />
+                <div className="portfolio-placeholder" style={{ display: 'none' }}>
+                  <div className="placeholder-content">
+                    <div className="placeholder-icon">
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                      </svg>
+                    </div>
+                    <p className={isArabic ? 'font-cairo' : 'font-sans'}>
+                      {isArabic ? 'صورة المشروع' : 'Project Image'}
+                    </p>
+                  </div>
+                </div>
+                <div className="portfolio-overlay" onClick={() => openLightbox(project)}>
+                  <div className="portfolio-content">
+                    <div className="fullscreen-icon">
+                      <Maximize2 />
+                    </div>
+                    <h3 className={isArabic ? 'font-cairo' : 'font-sans'}>
+                      {isArabic ? project.titleAr : project.titleEn}
+                    </h3>
+                    <p className={isArabic ? 'font-cairo' : 'font-sans'}>
+                      {isArabic ? project.descriptionAr : project.descriptionEn}
+                    </p>
+                    <button className={`btn-secondary ${isArabic ? 'font-cairo' : 'font-sans'}`}>
+                      {isArabic ? 'عرض بالحجم الكامل' : 'View Fullscreen'}
                     </button>
                   </div>
                 </div>
               </div>
-              
-              <div className="p-4">
-                <h3 className={`text-lg font-semibold text-gray-900 ${
-                  isArabic ? 'font-cairo text-right' : 'font-sans text-left'
-                }`}>
-                  {isArabic ? item.titleAr : item.titleEn}
-                </h3>
-              </div>
             </div>
           ))}
         </div>
-
-        {/* View more button */}
-        <div className="text-center mt-12">
-          <button className={`px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl ${
-            isArabic ? 'font-cairo' : 'font-sans'
-          }`}>
-            {isArabic ? 'عرض المزيد من الأعمال' : 'View More Work'}
-          </button>
-        </div>
       </div>
+      
+      <Lightbox 
+        isOpen={isLightboxOpen}
+        onClose={closeLightbox}
+        project={selectedProject}
+      />
     </section>
   );
 }

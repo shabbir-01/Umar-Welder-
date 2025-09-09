@@ -1,17 +1,5 @@
-import { Hero } from '@/components/sections/Hero';
-import { About } from '@/components/sections/About';
-import { Services } from '@/components/sections/Services';
-import { Portfolio } from '@/components/sections/Portfolio';
-import { Contact } from '@/components/sections/Contact';
+import { MainPageWrapper } from '@/components/MainPageWrapper';
 
 export default function Home() {
-  return (
-    <main className="min-h-screen">
-      <Hero />
-      <About />
-      <Services />
-      <Portfolio />
-      <Contact />
-    </main>
-  );
+  return <MainPageWrapper />;
 }

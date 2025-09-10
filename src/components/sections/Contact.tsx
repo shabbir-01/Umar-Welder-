@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MapPin, Clock, Phone, Mail } from 'lucide-react';
 
@@ -26,15 +26,15 @@ export function Contact() {
       icon: Phone,
       titleEn: 'Call Us',
       titleAr: 'اتصل بنا',
-      valueEn: '+966 55 XXX XXXX',
-      valueAr: '+966 55 XXX XXXX'
+      valueEn: '+966 53 706 0492',
+      valueAr: '+966 53 706 0492'
     },
     {
       icon: Mail,
       titleEn: 'Email Us',
       titleAr: 'البريد الإلكتروني',
-      valueEn: 'contact@umarwelder.com',
-      valueAr: 'contact@umarwelder.com'
+      valueEn: 'umarua847@gmail.com',
+      valueAr: 'umarua847@gmail.com'
     }
   ];
 
@@ -115,7 +115,26 @@ export function Contact() {
                       {isArabic ? info.titleAr : info.titleEn}
                     </h4>
                     <p className={isArabic ? 'font-cairo' : 'font-sans'}>
-                      {isArabic ? info.valueAr : info.valueEn}
+                      {info.icon === Phone ? (
+                        <a href={`tel:${info.valueEn.replace(/\s/g, '')}`} className="contact-link">
+                          {isArabic ? info.valueAr : info.valueEn}
+                        </a>
+                      ) : info.icon === Mail ? (
+                        <a href={`mailto:${info.valueEn}`} className="contact-link">
+                          {isArabic ? info.valueAr : info.valueEn}
+                        </a>
+                      ) : info.icon === MapPin ? (
+                        <a 
+                          href="https://www.google.com/maps/place/Umar+Welder+%D8%B9%D9%85%D8%B1+%D8%AD%D8%AF%D8%A7%D8%AF/@24.770111,46.7978934,17z/data=!3m1!4b1!4m6!3m5!1s0x3e2f01098d38c2c7:0x2b5d077a6fe275d0!8m2!3d24.770111!4d46.8004683!16s%2Fg%2F11y3k5qr8q?entry=ttu&g_ep=EgoyMDI1MDEwMi4wIKXMDSoASAFQAw%3D%3D"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="contact-link"
+                        >
+                          {isArabic ? info.valueAr : info.valueEn}
+                        </a>
+                      ) : (
+                        isArabic ? info.valueAr : info.valueEn
+                      )}
                     </p>
                   </div>
                 </div>

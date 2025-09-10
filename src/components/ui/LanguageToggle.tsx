@@ -14,12 +14,12 @@ export function LanguageToggle() {
   return (
     <button
       onClick={toggleLanguage}
-      className="language-toggle flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg hover:bg-white/20 transition-all duration-300 text-white text-sm font-medium"
+      className={`language-toggle ${isArabic ? 'font-cairo' : 'font-sans'}`}
       aria-label={`Switch to ${isArabic ? 'English' : 'Arabic'}`}
       data-testid="language-toggle"
     >
-      <Languages className="w-4 h-4" />
-      <span>
+      <Languages className="language-icon" />
+      <span className="language-text">
         {isArabic ? 'EN' : 'عر'}
       </span>
     </button>

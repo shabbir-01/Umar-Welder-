@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageToggle } from './LanguageToggle';
-import { Building2, Menu, X } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 export function Navigation() {
   const { isArabic } = useLanguage();
@@ -115,6 +115,9 @@ export function Navigation() {
               {item.label}
             </button>
           ))}
+          <div className="mobile-language-toggle">
+            <LanguageToggle />
+          </div>
         </div>
       </div>
     </nav>

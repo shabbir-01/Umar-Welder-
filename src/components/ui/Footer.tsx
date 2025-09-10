@@ -2,19 +2,13 @@
 
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Building2, Phone, Mail, MapPin } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 
 export function Footer() {
   const { isArabic } = useLanguage();
 
   const currentYear = new Date().getFullYear();
 
-  const services = [
-    { nameEn: 'Metal Doors', nameAr: 'الأبواب المعدنية' },
-    { nameEn: 'Window Frames', nameAr: 'إطارات النوافذ' },
-    { nameEn: 'Railings', nameAr: 'الدرابزين' },
-    { nameEn: 'Fencing', nameAr: 'السياج' }
-  ];
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -107,10 +101,10 @@ export function Footer() {
             </h4>
             <div className="simple-contact-info">
               <p className={isArabic ? 'font-cairo' : 'font-sans'}>
-                <strong>Phone:</strong> +966 55 XXX XXXX
+                <strong>Phone:</strong> <a href="tel:+966537060492" className="contact-link">+966 53 706 0492</a>
               </p>
               <p className={isArabic ? 'font-cairo' : 'font-sans'}>
-                <strong>Email:</strong> contact@umarwelder.com
+                <strong>Email:</strong> <a href="mailto:umarua847@gmail.com" className="contact-link">umarua847@gmail.com</a>
               </p>
               <p className={isArabic ? 'font-cairo' : 'font-sans'}>
                 <strong>Location:</strong><br />

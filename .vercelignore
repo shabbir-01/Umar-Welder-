@@ -1,0 +1,4 @@
+WARP.md
+.git/
+*.log
+node_modules/.cache/

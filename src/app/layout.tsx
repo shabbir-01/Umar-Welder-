@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Cairo } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { StructuredData } from "@/components/ui/StructuredData";
+import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
+import { Analytics } from "@/components/ui/Analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,6 +23,7 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://umarwelder.sa'),
   title: "Umar Welder | عمر حداد - Expert Welding & Custom Metalwork",
   description: "Professional welding services in Riyadh. Custom doors, windows, sheds, fencing, railings, staircases, and repairs. Available onsite and in shop.",
   keywords: "welding, blacksmith, custom metalwork, doors, windows, sheds, fencing, railings, staircases, repairs, Riyadh, Saudi Arabia",
@@ -60,6 +63,17 @@ export const metadata: Metadata = {
   },
   verification: {
     google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
+    yahoo: "your-yahoo-verification-code",
+  },
+  other: {
+    'contact:phone': '+966537060492',
+    'contact:email': 'umarua847@gmail.com',
+  },
+  icons: {
+    icon: '/welder.svg',
+    shortcut: '/welder.svg',
+    apple: '/welder.svg',
   },
 };
 
@@ -69,14 +83,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${cairo.variable} antialiased`}
       >
-        <LanguageProvider>
-          <StructuredData />
-          {children}
-        </LanguageProvider>
+        <ErrorBoundary>
+          <LanguageProvider>
+            <StructuredData />
+            <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+            {children}
+          </LanguageProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

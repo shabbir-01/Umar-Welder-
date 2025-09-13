@@ -1,12 +1,9 @@
+# *
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://umarwelder.sa/sitemap.xml
+# Host
+Host: https://umar-welder.vercel.app
 
-# Crawl delay
-Crawl-delay: 1
-
-# Block crawling of admin or private areas if any
-# Disallow: /admin/
-# Disallow: /private/
+# Sitemaps
+Sitemap: https://umar-welder.vercel.app/sitemap.xml

@@ -4,7 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { StructuredData } from "@/components/ui/StructuredData";
 import { ErrorBoundary } from "@/components/ui/ErrorBoundary";
-import { Analytics } from "@/components/ui/Analytics";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -90,7 +90,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <LanguageProvider>
             <StructuredData />
-            <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+            <Analytics />
             {children}
           </LanguageProvider>
         </ErrorBoundary>

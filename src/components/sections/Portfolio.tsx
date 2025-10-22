@@ -22,24 +22,24 @@ export function Portfolio() {
   ];
 
   const projects: Project[] = [
-    // 4 Sheds: img2, img5, img8, img11
+    // 4 Sheds
     { id: 2, image: '/images/img2.jpg',  category: 'sheds',          titleEn: 'Custom Shed Build',        titleAr: 'بناء مظلة مخصصة',        descriptionEn: 'Durable shed structure with reinforced frame', descriptionAr: 'هيكل مظلة متين بإطار معزز' },
-    { id: 5, image: '/images/img5.jpg',  category: 'sheds',          titleEn: 'Carport Structure',       titleAr: 'موقف سيارات مظلل',        descriptionEn: 'Metal carport designed for durability',         descriptionAr: 'موقف سيارات معدني مصمم للمتانة' },
-    { id: 8, image: '/images/img8.jpg',  category: 'sheds',          titleEn: 'Workshop Shed',           titleAr: 'مظلة ورشة',               descriptionEn: 'Spacious workshop shed with ventilation',       descriptionAr: 'مظلة ورشة فسيحة مع تهوية' },
-    { id: 11, image: '/images/img11.jpg', category: 'sheds',         titleEn: 'Storage Shed',            titleAr: 'مظلة تخزين',               descriptionEn: 'Compact storage shed solution',                  descriptionAr: 'حل مظلة تخزين مدمجة' },
+    { id: 5, image: '/images/img3.jpg',  category: 'sheds',          titleEn: 'Carport Structure',       titleAr: 'موقف سيارات مظلل',        descriptionEn: 'Metal carport designed for durability',         descriptionAr: 'موقف سيارات معدني مصمم للمتانة' },
+    { id: 8, image: '/images/img4.jpg',  category: 'sheds',          titleEn: 'Workshop Shed',           titleAr: 'مظلة ورشة',               descriptionEn: 'Spacious workshop shed with ventilation',       descriptionAr: 'مظلة ورشة فسيحة مع تهوية' },
+    { id: 11, image: '/images/img5.jpg', category: 'sheds',         titleEn: 'Storage Shed',            titleAr: 'مظلة تخزين',               descriptionEn: 'Compact storage shed solution',                  descriptionAr: 'حل مظلة تخزين مدمجة' },
     
-    // 4 Doors & Windows: img3, img6, img9, img12
-    { id: 3, image: '/images/img3.jpg',  category: 'doors-windows',  titleEn: 'Steel Door Install',      titleAr: 'تركيب باب فولاذي',        descriptionEn: 'Security steel door with premium finish',       descriptionAr: 'باب أمان فولاذي بلمسة نهائية ممتازة' },
-    { id: 6, image: '/images/img6.jpg',  category: 'doors-windows',  titleEn: 'Window Frame Set',        titleAr: 'مجموعة إطارات نوافذ',     descriptionEn: 'Custom aluminum window framing',                 descriptionAr: 'إطارات نوافذ ألمنيوم مخصصة' },
-    { id: 9, image: '/images/img9.jpg',  category: 'doors-windows',  titleEn: 'Entrance Door',           titleAr: 'باب مدخل',                 descriptionEn: 'Decorative steel entrance door',                 descriptionAr: 'باب مدخل فولاذي زخرفي' },
-    { id: 12, image: '/images/img12.jpg', category: 'doors-windows', titleEn: 'Shopfront Windows',       titleAr: 'نوافذ واجهة متجر',         descriptionEn: 'Shopfront windows with metal frames',            descriptionAr: 'نوافذ واجهة متجر بإطارات معدنية' },
+    // 4 Doors & Windows
+    { id: 3, image: '/images/img6.jpg',  category: 'doors-windows',  titleEn: 'Steel Door Install',      titleAr: 'تركيب باب فولاذي',        descriptionEn: 'Security steel door with premium finish',       descriptionAr: 'باب أمان فولاذي بلمسة نهائية ممتازة' },
+    { id: 6, image: '/images/img7.jpg',  category: 'doors-windows',  titleEn: 'Window Frame Set',        titleAr: 'مجموعة إطارات نوافذ',     descriptionEn: 'Custom aluminum window framing',                 descriptionAr: 'إطارات نوافذ ألمنيوم مخصصة' },
+    { id: 9, image: '/images/img8.jpg',  category: 'doors-windows',  titleEn: 'Entrance Door',           titleAr: 'باب مدخل',                 descriptionEn: 'Decorative steel entrance door',                 descriptionAr: 'باب مدخل فولاذي زخرفي' },
+    { id: 12, image: '/images/img9.jpg', category: 'doors-windows', titleEn: 'Shopfront Windows',       titleAr: 'نوافذ واجهة متجر',         descriptionEn: 'Shopfront windows with metal frames',            descriptionAr: 'نوافذ واجهة متجر بإطارات معدنية' },
     
-    // 2 Railings: img4, img7
-    { id: 4, image: '/images/img4.jpg',  category: 'railings',       titleEn: 'Balcony Railing',         titleAr: 'درابزين شرفة',           descriptionEn: 'Elegant and safe balcony railing system',       descriptionAr: 'نظام درابزين شرفة أنيق وآمن' },
-    { id: 7, image: '/images/img7.jpg',  category: 'railings',       titleEn: 'Stair Railing',           titleAr: 'درابزين درج',             descriptionEn: 'Staircase safety railing with modern design',   descriptionAr: 'درابزين درج آمن بتصميم عصري' },
+    // 2 Railings
+    { id: 4, image: '/images/img10.jpg',  category: 'railings',       titleEn: 'Balcony Railing',         titleAr: 'درابزين شرفة',           descriptionEn: 'Elegant and safe balcony railing system',       descriptionAr: 'نظام درابزين شرفة أنيق وآمن' },
+    { id: 7, image: '/images/img11.jpg',  category: 'railings',       titleEn: 'Stair Railing',           titleAr: 'درابزين درج',             descriptionEn: 'Staircase safety railing with modern design',   descriptionAr: 'درابزين درج آمن بتصميم عصري' },
     
-    // 1 Others: img10
-    { id: 10, image: '/images/img10.jpg', category: 'others',        titleEn: 'Custom Metalwork',        titleAr: 'أعمال معدنية مخصصة',        descriptionEn: 'Specialized custom metal fabrication',           descriptionAr: 'تصنيع معادن مخصصة ومتخصصة' },
+    // 1 Others
+    { id: 10, image: '/images/img12.jpg', category: 'others',        titleEn: 'Custom Metalwork',        titleAr: 'أعمال معدنية مخصصة',        descriptionEn: 'Specialized custom metal fabrication',           descriptionAr: 'تصنيع معادن مخصصة ومتخصصة' },
   ];
 
   // Filter projects based on active filter
